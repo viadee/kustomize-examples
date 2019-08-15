@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- ../../base
+
+namespace: my-app-dev
+
+patchesStrategicMerge:
+- deployment_env.yaml
+
+
+configMapGenerator:
+  - name: app-config
+    literals:
+      - username=demo-user
+
+secretGenerator:
+  - name: credentials
+    type: Opaque
+    literals:
+      - password=demo
