@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: k8s-test-app
+        volumeMounts:
+          - name: certificates
+            mountPath: /data/certs
+      volumes:
+        - name: certificates
+          secret:
+            name: certs
