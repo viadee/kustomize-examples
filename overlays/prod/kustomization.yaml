@@ -5,6 +5,7 @@ bases:
 - ../../base
 
 namespace: my-app-prod
+nameSuffix: -prod
 
 commonLabels:
   foo: bar
