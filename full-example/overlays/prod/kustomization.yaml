@@ -5,21 +5,16 @@ bases:
 - ../../base
 
 namespace: my-app-prod
-nameSuffix: -prod
+namePrefix: prod-
 
 commonLabels:
   foo: bar
-
-patchesStrategicMerge:
-- deployment_replicas.yaml
-- deployment_env.yaml
-- deployment_volume.yaml
 
 
 configMapGenerator:
   - name: app-config
     literals:
-      - username=prod-user
+      - username=prod-user-demo
 
 secretGenerator:
   - name: credentials
@@ -29,3 +24,11 @@ secretGenerator:
   - name: certs
     files:
       - assets/ca.pem
+
+
+
+patchesStrategicMerge:
+- deployment_replicas.yaml
+- deployment_env.yaml
+- deployment_volume.yaml
+
