@@ -3,23 +3,31 @@ name: Kustomize Build
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - master  # Change this to your main branch name
 
 jobs:
+  # This workflow contains a single job called "build"
   build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
 
-    - name: Set up kustomize
-      run: |
-        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-        sudo mv kustomize /usr/local/bin/
-
-    - name: Kustomize build and save to file
-      run: kustomize build base/ > kustomize_output.yaml
-
-    - name: Display output file
-      run: cat kustomize_output.yaml
+      - name: Set up kustomize
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+  
+      - name: Kustomize build and save to file
+        run: kustomize build base/ > kustomize_output.yaml
+  
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "jatinjangir0220@gmail.com"
+          git config --local user.name "jatin-jangir"
+          git add kustomize_output.yaml
+          git commit -m "Update kustomize output"
+          git push origin HEAD:kustomize 
